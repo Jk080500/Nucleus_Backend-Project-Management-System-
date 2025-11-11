@@ -104,7 +104,7 @@ UserSchema.methods.generateAccessToken = function () {
     email: this.email,
     username: this.username,
   };
-  jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
     expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
   });
 };
@@ -118,7 +118,7 @@ UserSchema.methods.generateRefreshToken = function () {
     username: this.username,
   };
 
-  jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+  return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: process.env.REFRESH_TOKEN_SECRET,
   });
 };

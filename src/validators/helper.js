@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 const userRegisterValidator = () => {
-  retrun[
+  return [
     ((body("email")
       .trim()
       .notEmpty()
@@ -17,8 +17,15 @@ const userRegisterValidator = () => {
       .isLength({ min: 3 })
       .withMessage("Username must be atleast 3 characters long")),
     body("password").trim().notEmpty().withMessage("Password is mandatory"),
-    body("fullName").trim().notEmpty().withMessage("FullName is mandatory"))
+    body("fullName").trim().notEmpty().withMessage("FullName is mandatory")),
   ];
 };
 
-export { userRegisterValidator };
+const userLoginValidator = () => {
+  return [
+    body("email").optional().isEmail().withMessage("Email is Invalid"),
+    body("password").notEmpty().withMessage("Password is Mandatory"),
+  ];
+};
+
+export { userRegisterValidator, userLoginValidator };
