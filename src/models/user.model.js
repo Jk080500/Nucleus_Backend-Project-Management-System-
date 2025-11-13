@@ -119,7 +119,7 @@ UserSchema.methods.generateRefreshToken = function () {
   };
 
   return jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
-    expiresIn: process.env.REFRESH_TOKEN_SECRET,
+    expiresIn: process.env.REFRESH_TOKEN_EXPIRY,
   });
 };
 
@@ -132,7 +132,7 @@ UserSchema.methods.generateTemproraryToken = function () {
     .update(unHashedToken)
     .digest("hex");
 
-  const tokenExpiry = Date.now() + 20 * 60 * 100; //20 minutes
+  const tokenExpiry = Date.now() + 20 * 60 * 1000; //20 minutes
   return { unHashedToken, hashedToken, tokenExpiry };
 };
 
