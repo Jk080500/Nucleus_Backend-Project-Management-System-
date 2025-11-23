@@ -12,13 +12,8 @@ import jwt from "jsonwebtoken";
 const generateAccessAndRefreshToken = async (userId) => {
   try {
     const user = await User.findById(userId);
-    console.log("user ", user);
-
     const accessToken = user.generateAccessToken();
-    console.log("accessToken ", accessToken);
-
     const refreshToken = user.generateRefreshToken();
-    console.log("refreshToken ", refreshToken);
 
     user.refreshToken = refreshToken;
     await user.save({ validateBeforeSave: false });
@@ -95,7 +90,6 @@ const login = asyncHandler(async (req, res) => {
   }
 
   const existingUser = await User.findOne({ email });
-  console.log("existingUser ", existingUser);
   if (!existingUser) {
     throw new ApiError(400, "User does not exist , Please SignUp");
   }
@@ -105,7 +99,6 @@ const login = asyncHandler(async (req, res) => {
   if (!isPasswordValid) {
     throw new ApiError(400, "Invalid credentials");
   }
-  console.log("existingUser._id ", existingUser._id);
   const { accessToken, refreshToken } = await generateAccessAndRefreshToken(
     existingUser._id.toString(),
   );
@@ -345,9 +338,6 @@ const resetForgotPassword = asyncHandler(async (req, res) => {
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
   const { oldPassword, newPassword } = req.body;
-  console.log("oldPassword ", oldPassword);
-  console.log("newPassword ", newPassword);
-
   const user = await User.findById(req.user?._id);
 
   const isPasswordValid = await user.isPasswordCorrect(oldPassword);
